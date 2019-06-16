@@ -22,24 +22,40 @@ const App = () => {
                 console.log(response.data)
             })
     }, [])
-     const rows = () => countries.map(country =>
+
+
+    const rows = () => countries.filter(country =>{
+        console.log(country.name.indexOf(newFilter))
+
+        
+            return country.name.indexOf(newFilter) >= 0   
+        //return country.name.indexOf(newFilter) >= 0
+
+      })
+
+
+     .map(country =>
         <Country 
         key = {country.name}
         country = {country}
-        />
+        />,
      )
-        
-    //const rows = () => persons.map(person => <li key = {person.name} >{person.name} {person.number}</li>)
-  
-      
-      //.map(person => <li key = {person.name} >{person.name} {person.number}</li>)
-  
 
     const handleNoteChangeFilter = (event) =>{
         console.log(event.target.value)
         setNewFilter(event.target.value)
     }
 
+    const filter = () => {
+        if(rows().length > 10){
+            console.log(rows(), 'rowit')
+            return <h3>Too many matches, speficy another filter </h3>
+        }else if (rows().length < 10){
+            return rows()
+        }
+    }
+
+    
     return (
         <div>
           <form>
@@ -47,7 +63,7 @@ const App = () => {
               onChange = {handleNoteChangeFilter}
               />
           </form>
-          {rows()}
+            {filter()}
         </div>
       )
 
